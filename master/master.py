@@ -4,6 +4,7 @@ from colorama import init
 from colorama import Fore, Back, Style
 from mysql.connector import Error
 import env_vars as en
+from os import system
 init()
 
 
@@ -58,7 +59,7 @@ def db_connect():
             temp = temp[1:-1]
             temp = temp.replace(" ", "")
             # print(temp)
-            query = "{}  {}".format(lineList[curr_node], temp)
+            query = "python3 slave.py {} {}".format(lineList[curr_node], temp)
             query = str(query)
             # ssh user@host "date && hostname"
             print(query)
