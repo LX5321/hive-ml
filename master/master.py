@@ -28,7 +28,6 @@ def db_connect():
     # global mycursor
     curr_node = 0
     curr_chunk = 0
-    curr_element = 0
     print("Connecting to DB ", end="")
     try:
         mydb = mysql.connector.connect(
@@ -54,10 +53,16 @@ def db_connect():
         # number of chunks
         chunkCount = len(x)
         while(executeStatus != 1):
-            query = "{} {}".format(lineList[curr_node], x[curr_chunk])
+            temp = x[curr_chunk]
+            temp = str(temp)
+            temp = temp[1:-1]
+            temp = temp.replace(" ", "")
+            # print(temp)
+            query = "{}  {}".format(lineList[curr_node], temp)
             query = str(query)
-            
+            # ssh user@host "date && hostname"
             print(query)
+
             # update the current chunk to the next chunk.
             curr_chunk = curr_chunk + 1
             # update the hostlist counter
