@@ -2,5 +2,5 @@ host = "localhost"
 user = "root"
 passwd = ""
 database = "database"
-chunkSize = 4
+chunkSize = 5
 fileName = "config/hosts.txt"
