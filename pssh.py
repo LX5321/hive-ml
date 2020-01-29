@@ -1,4 +1,4 @@
-import pxssh
+from pexpect import pxssh
 s = pxssh.pxssh()
 if not s.login ('localhost', 'myusername', 'mypassword'):
     print("SSH session failed on login.")

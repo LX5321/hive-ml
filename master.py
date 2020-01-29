@@ -59,10 +59,10 @@ def db_connect():
             temp = temp[1:-1]
             temp = temp.replace(" ", "")
             # print(temp)
-            query = "python3 slave.py {} {}".format(lineList[curr_node], temp)
+            query = "python3 slave.py {} {}".format(temp, lineList[curr_node])
             query = str(query)
-            # ssh user@host "date && hostname"
-            print(query)
+            # ssh user@host python -u - --opt arg1 arg2 < script.py
+            system(query)
 
             # update the current chunk to the next chunk.
             curr_chunk = curr_chunk + 1
@@ -71,7 +71,6 @@ def db_connect():
                 curr_node = 0
             else:
                 curr_node = curr_node+1
-
             # stop the loop by updating the flag
             if(curr_chunk == chunkCount):
                 executeStatus = 1
@@ -80,7 +79,6 @@ def db_connect():
         print(Fore.RED+"[FAILED]"+Style.RESET_ALL)
         print(e)
         exit(0)
-
 
 if __name__ == "__main__":
     readNodes()
