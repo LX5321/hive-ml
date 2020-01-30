@@ -3,7 +3,7 @@ import mysql.connector
 from colorama import init
 from colorama import Fore, Back, Style
 from mysql.connector import Error
-import env_vars as en
+import masterenvironment as en
 from os import system
 from os import chdir
 init()
@@ -36,7 +36,7 @@ def db_connect():
         mycursor = mydb.cursor()
         print(Fore.GREEN+"[SUCCESS]"+Style.RESET_ALL)
         pending = []
-        query = "select * from {} where run={}".format("diagnosis", "0")
+        query = "select * from {} where PredictedOutcome {}".format("diagnosis", "IS NULL")
         mycursor.execute(query)
         myresult = mycursor.fetchall()
         for x in myresult:
