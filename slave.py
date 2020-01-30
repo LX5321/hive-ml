@@ -25,7 +25,6 @@ def db_connect(query_id):
     mycursor.execute(query)
     myresult = mycursor.fetchall()
     for x in myresult:
-        # Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age,Outcome    
         sol = (mlp.predict([[x[2],x[3],x[4],x[5],x[6],x[7],x[8],x[9]]]))
         sol = float(sol)
         print(sol)

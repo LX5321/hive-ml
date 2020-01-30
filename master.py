@@ -24,9 +24,6 @@ def readNodes():
 
 
 def db_connect():
-    # mycursor to use with queries outside the function.
-    # keeps code small by enabling only queries to be run using one db connection object.
-    # global mycursor
     curr_node = 0
     curr_chunk = 0
     print("Connecting to DB ", end="")
