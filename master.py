@@ -3,20 +3,17 @@ import mysql.connector
 from colorama import init
 from colorama import Fore, Back, Style
 from mysql.connector import Error
-import env_vars as en
+import masterenvironment as en
 from os import system
+from os import chdir
 init()
 
-
-# divide the query data into chunk of arrays
-# to be processed as command line arguments
 def divide_chunks(l, n):
     for i in range(0, len(l), n):
         yield l[i:i + n]
 
 
 def readNodes():
-    # create a global linelist object
     global lineList
     with open(en.fileName) as f:
         lineList = f.readlines()
@@ -24,9 +21,6 @@ def readNodes():
 
 
 def db_connect():
-    # mycursor to use with queries outside the function.
-    # keeps code small by enabling only queries to be run using one db connection object.
-    # global mycursor
     curr_node = 0
     curr_chunk = 0
     print("Connecting to DB ", end="")
@@ -36,7 +30,7 @@ def db_connect():
         mycursor = mydb.cursor()
         print(Fore.GREEN+"[SUCCESS]"+Style.RESET_ALL)
         pending = []
-        query = "select * from {} where run={}".format("diagnosis", "0")
+        query = "select * from {} where PredictedOutcome {}".format("diagnosis", "IS NULL")
         mycursor.execute(query)
         myresult = mycursor.fetchall()
         for x in myresult:
@@ -59,7 +53,8 @@ def db_connect():
             temp = temp[1:-1]
             temp = temp.replace(" ", "")
             # print(temp)
-            query = "python3 slave.py {} {}".format(temp, lineList[curr_node])
+            # query = "python3 slave.py {} {}".format(temp, lineList[curr_node])
+            query = "python3 slave.py {}".format(temp)
             query = str(query)
             # ssh user@host python -u - --opt arg1 arg2 < script.py
             system(query)
