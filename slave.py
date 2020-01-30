@@ -7,7 +7,6 @@ from sklearn.preprocessing import StandardScaler
 from sys import argv as a
 import env_vars as en
 import mysql.connector
-
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -24,35 +23,27 @@ def db_connect(query_id):
     query = "select * from {} where id={}".format("diagnosis", query_id)
     mycursor.execute(query)
     myresult = mycursor.fetchall()
-    # for x in myresult:
-    #     print(x)
-    
-    sol = (mlp.predict([[3,185,36,239,1,236.6,0.701,31]]))
-    sol = float(sol)
-    print(sol)
+    for x in myresult:
+        # Pregnancies,Glucose,BloodPressure,SkinThickness,Insulin,BMI,DiabetesPedigreeFunction,Age,Outcome    
+        sol = (mlp.predict([[x[2],x[3],x[4],x[5],x[6],x[7],x[8],x[9]]]))
+        sol = float(sol)
+        print(sol)
    
 
 if __name__ == "__main__":
-    # split array and store it in temp
     temp = (a[1])
     temp = temp.split(',')
-
     diabetes = pd.read_csv('diabetes.csv')
-
-
     X_train, X_test, y_train, y_test = train_test_split(diabetes.loc[:, diabetes.columns != 'Outcome'], diabetes['Outcome'], stratify=diabetes['Outcome'], random_state=66)
-
     scaler = StandardScaler()
     X_train_scaled = scaler.fit_transform(X_train)
     X_test_scaled = scaler.fit_transform(X_test)
 
     global mlp
-    mlp = MLPClassifier(random_state=42)
+    mlp = MLPClassifier(random_state=66)
     mlp.fit(X_train_scaled, y_train)
-
     print("Accuracy on training set: {:.3f}".format(mlp.score(X_train_scaled, y_train)))
     print("Accuracy on test set: {:.3f}".format(mlp.score(X_test_scaled, y_test)))
-
 
     for queries in temp:
 	    db_connect(queries)
