@@ -5,9 +5,10 @@ from sklearn.model_selection import train_test_split
 from sklearn.neural_network import MLPClassifier
 from sklearn.preprocessing import StandardScaler
 from sys import argv as a
-import env_vars as en
+import slaveenvironment as en
 import mysql.connector
 import warnings
+from os import system
 warnings.filterwarnings("ignore")
 
 
@@ -31,6 +32,7 @@ def db_connect(query_id):
    
 
 if __name__ == "__main__":
+    system("hostname -i")
     temp = (a[1])
     temp = temp.split(',')
     diabetes = pd.read_csv('diabetes.csv')
