@@ -8,15 +8,12 @@ from os import system
 from os import chdir
 init()
 
-# divide the query data into chunk of arrays
-# to be processed as command line arguments
 def divide_chunks(l, n):
     for i in range(0, len(l), n):
         yield l[i:i + n]
 
 
 def readNodes():
-    # create a global linelist object
     global lineList
     with open(en.fileName) as f:
         lineList = f.readlines()
