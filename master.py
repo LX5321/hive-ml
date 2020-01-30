@@ -5,8 +5,8 @@ from colorama import Fore, Back, Style
 from mysql.connector import Error
 import env_vars as en
 from os import system
+from os import chdir
 init()
-
 
 # divide the query data into chunk of arrays
 # to be processed as command line arguments
@@ -59,7 +59,8 @@ def db_connect():
             temp = temp[1:-1]
             temp = temp.replace(" ", "")
             # print(temp)
-            query = "python3 slave.py {} {}".format(temp, lineList[curr_node])
+            # query = "python3 slave.py {} {}".format(temp, lineList[curr_node])
+            query = "python3 slave.py {}".format(temp)
             query = str(query)
             # ssh user@host python -u - --opt arg1 arg2 < script.py
             system(query)
