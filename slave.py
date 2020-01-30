@@ -22,13 +22,21 @@ except Error as e:
 def db_connect(query_id):
     pending = []
     query = "select * from {} where id={}".format("diagnosis", query_id)
+    global mycursor
     mycursor.execute(query)
     myresult = mycursor.fetchall()
     for x in myresult:
         sol = (mlp.predict([[x[2],x[3],x[4],x[5],x[6],x[7],x[8],x[9]]]))
         sol = float(sol)
         print(sol)
-   
+        query = "update diagnosis set PredictedOutcome = {} where user_id = {}".format(sol, x[1])
+        mycursor.execute(query)
+        mydb.commit()
+    
+    mycursor.close()    
+    mydb.close()
+        
+    
 
 if __name__ == "__main__":
     system("hostname -i")
@@ -48,3 +56,7 @@ if __name__ == "__main__":
 
     for queries in temp:
 	    db_connect(queries)
+    
+    
+    
+    print("\n")
