@@ -29,12 +29,12 @@ def db_connect(query_id):
         sol = (mlp.predict([[x[2],x[3],x[4],x[5],x[6],x[7],x[8],x[9]]]))
         sol = float(sol)
         print(sol)
-        query = "update diagnosis set PredictedOutcome = {} where user_id = {}".format(sol, x[1])
+        query = "update diagnosis set PredictedOutcome = {} where id = {}".format(sol, query_id)
         mycursor.execute(query)
         mydb.commit()
     
-    mycursor.close()    
-    mydb.close()
+    # mycursor.close()    
+    # mydb.close()
         
     
 
