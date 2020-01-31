@@ -54,7 +54,7 @@ def db_connect():
             temp = temp.replace(" ", "")
             # print(temp)
             # query = "python3 slave.py {} {}".format(temp, lineList[curr_node])
-            query = "python3 slave.py {}".format(temp)
+            query = "ssh pi@{} python3 hive-ml/slave.py {}".format(lineList[curr_node], temp)
             query = str(query)
             # ssh user@host python -u - --opt arg1 arg2 < script.py
             system(query)
