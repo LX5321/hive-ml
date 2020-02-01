@@ -15,8 +15,8 @@ warnings.filterwarnings("ignore")
 try:
     mydb = mysql.connector.connect(host=en.host, user=en.user, passwd=en.passwd, database=en.database)
     mycursor = mydb.cursor()
-except Error as e:
-    print(e)
+except:
+    print("Error")
     exit(0)
 
 def db_connect(query_id):
@@ -28,21 +28,19 @@ def db_connect(query_id):
     for x in myresult:
         sol = (mlp.predict([[x[2],x[3],x[4],x[5],x[6],x[7],x[8],x[9]]]))
         sol = float(sol)
-        print(sol)
-        query = "update diagnosis set PredictedOutcome = {} where user_id = {}".format(sol, x[1])
-        mycursor.execute(query)
-        mydb.commit()
-    
-    mycursor.close()    
-    mydb.close()
-        
-    
+
+    query = "update diagnosis set PredictedOutcome = {} where id = {}".format(sol, query_id)
+    mycursor.execute(query)
+    mydb.commit()
+
+#    mycursor.close()
+ #   mydb.close()
 
 if __name__ == "__main__":
     system("hostname -i")
     temp = (a[1])
     temp = temp.split(',')
-    diabetes = pd.read_csv('diabetes.csv')
+    diabetes = pd.read_csv('~/hive-ml/diabetes.csv')
     X_train, X_test, y_train, y_test = train_test_split(diabetes.loc[:, diabetes.columns != 'Outcome'], diabetes['Outcome'], stratify=diabetes['Outcome'], random_state=66)
     scaler = StandardScaler()
     X_train_scaled = scaler.fit_transform(X_train)
@@ -56,7 +54,5 @@ if __name__ == "__main__":
 
     for queries in temp:
 	    db_connect(queries)
-    
-    
-    
+ 
     print("\n")
