@@ -11,20 +11,20 @@ import warnings
 from os import system
 warnings.filterwarnings("ignore")
 
-
 try:
     mydb = mysql.connector.connect(host=en.host, user=en.user, passwd=en.passwd, database=en.database)
     mycursor = mydb.cursor()
 except:
-    print("Error")
+    print("An error occured.")
     exit(0)
 
 def db_connect(query_id):
-    pending = []
+#    pending = []
     query = "select * from {} where id={}".format("diagnosis", query_id)
     global mycursor
     mycursor.execute(query)
     myresult = mycursor.fetchall()
+    print(len(myresult))
     for x in myresult:
         sol = (mlp.predict([[x[2],x[3],x[4],x[5],x[6],x[7],x[8],x[9]]]))
         sol = float(sol)
