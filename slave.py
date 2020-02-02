@@ -33,8 +33,8 @@ def db_connect(query_id):
     mycursor.execute(query)
     mydb.commit()
 
-#    mycursor.close()
- #   mydb.close()
+#   mycursor.close()
+#   mydb.close()
 
 if __name__ == "__main__":
     system("hostname -i")
