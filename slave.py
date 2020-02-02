@@ -39,7 +39,7 @@ def db_connect(query_id):
     
 
 if __name__ == "__main__":
-    system("hostname -i")
+    system("hostname -I")
     temp = (a[1])
     temp = temp.split(',')
     diabetes = pd.read_csv('diabetes.csv')
