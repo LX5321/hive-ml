@@ -52,7 +52,7 @@ if __name__ == "__main__":
 
     for queries in temp:
 	    db_connect(queries)
- 
+
     # terminate db connection
     mycursor.close()
     mydb.close()

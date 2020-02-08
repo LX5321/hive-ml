@@ -37,36 +37,23 @@ def db_connect():
             pending.append(x[0])
 
         x = list(divide_chunks(pending, en.chunkSize))
-        # checks if all the queries are complete.
-        # executeStatus == 0 -> queries are not complete.
-        # executeStatus == 1 -> complete, exit loop.
         executeStatus = 0
-        # number of nodes
         nodeCount = len(lineList)
-        # since array starts from 0 - n
         nodeCount = nodeCount - 1
-        # number of chunks
         chunkCount = len(x)
         while(executeStatus != 1):
             temp = x[curr_chunk]
             temp = str(temp)
             temp = temp[1:-1]
             temp = temp.replace(" ", "")
-            # print(temp)
-            # query = "python3 slave.py {} {}".format(temp, lineList[curr_node])
             query = "ssh pi@{} python3 hive-ml/slave.py {}".format(lineList[curr_node], temp)
             query = str(query)
-            # ssh user@host python -u - --opt arg1 arg2 < script.py
             system(query)
-
-            # update the current chunk to the next chunk.
             curr_chunk = curr_chunk + 1
-            # update the hostlist counter
             if(curr_node == nodeCount):
                 curr_node = 0
             else:
                 curr_node = curr_node+1
-            # stop the loop by updating the flag
             if(curr_chunk == chunkCount):
                 executeStatus = 1
 
