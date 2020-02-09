@@ -19,7 +19,6 @@ except:
     exit(0)
 
 def db_connect(query_id):
-#    pending = []
     query = "select * from {} where id={}".format("diagnosis", query_id)
     global mycursor
     mycursor.execute(query)
