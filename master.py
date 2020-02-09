@@ -46,7 +46,7 @@ def db_connect():
             temp = str(temp)
             temp = temp[1:-1]
             temp = temp.replace(" ", "")
-            query = "ssh pi@{} python3 hive-ml/slave.py {}".format(lineList[curr_node], temp)
+            query = "ssh -o ConnectTimeout=10 pi@{} python3 hive-ml/slave.py {}".format(lineList[curr_node], temp)
             query = str(query)
             system(query)
             curr_chunk = curr_chunk + 1
