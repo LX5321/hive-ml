@@ -23,7 +23,6 @@ def db_connect(query_id):
     global mycursor
     mycursor.execute(query)
     myresult = mycursor.fetchall()
-    print(len(myresult))
     for x in myresult:
         sol = (mlp.predict([[x[2],x[3],x[4],x[5],x[6],x[7],x[8],x[9]]]))
         sol = float(sol)
@@ -48,7 +47,7 @@ if __name__ == "__main__":
     mlp.fit(X_train_scaled, y_train)
     print("Accuracy on training set: {:.3f}".format(mlp.score(X_train_scaled, y_train)))
     print("Accuracy on test set: {:.3f}".format(mlp.score(X_test_scaled, y_test)))
-
+    print("Computing ", len(a[1]), " results.")
     for queries in temp:
 	    db_connect(queries)
 
