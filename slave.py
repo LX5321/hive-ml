@@ -47,7 +47,7 @@ if __name__ == "__main__":
     mlp.fit(X_train_scaled, y_train)
     print("Accuracy on training set: {:.3f}".format(mlp.score(X_train_scaled, y_train)))
     print("Accuracy on test set: {:.3f}".format(mlp.score(X_test_scaled, y_test)))
-    print("Computing ", len(a[1]), " results.")
+    print("Computing ", len(temp), " results.")
     for queries in temp:
 	    db_connect(queries)
 
