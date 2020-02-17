@@ -95,4 +95,13 @@ if __name__ == "__main__":
                 lineList[curr_node])
             query = str(query)
             system(query)
+    
+    elif (argv[1] == "clustershutdown"):
+        print("Shutting Down All slave nodes.")
+        for i in lineList:
+            query = "ssh -o ConnectTimeout=10 pi@{} sudo poweroff".format(lineList)
+            query = str(query)
+            system(query)
+    else:
+        print("Error")
         
