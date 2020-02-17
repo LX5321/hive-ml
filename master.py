@@ -102,6 +102,7 @@ if __name__ == "__main__":
             query = "ssh -o ConnectTimeout=10 pi@{} sudo poweroff".format(lineList)
             query = str(query)
             system(query)
+            
     else:
         print("Error")
         
