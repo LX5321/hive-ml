@@ -5,8 +5,12 @@ from colorama import Fore, Back, Style
 from mysql.connector import Error
 import masterenvironment as en
 from os import system
+from sys import argv
 from os import chdir
+from time import sleep
+
 init()
+
 
 def divide_chunks(l, n):
     for i in range(0, len(l), n):
@@ -30,23 +34,27 @@ def db_connect():
         mycursor = mydb.cursor()
         print(Fore.GREEN+"[SUCCESS]"+Style.RESET_ALL)
         pending = []
-        query = "select * from {} where PredictedOutcome {}".format("diagnosis", "IS NULL")
+        query = "select * from {} where PredictedOutcome {}".format(
+            "diagnosis", "IS NULL")
         mycursor.execute(query)
         myresult = mycursor.fetchall()
         for x in myresult:
             pending.append(x[0])
-
         x = list(divide_chunks(pending, en.chunkSize))
         executeStatus = 0
         nodeCount = len(lineList)
         nodeCount = nodeCount - 1
         chunkCount = len(x)
         while(executeStatus != 1):
+            if(len(x)==0):
+                print("No Queries at the moment.")
+                break
             temp = x[curr_chunk]
             temp = str(temp)
             temp = temp[1:-1]
             temp = temp.replace(" ", "")
-            query = "ssh -o ConnectTimeout=10 pi@{} python3 hive-ml/slave.py {}".format(lineList[curr_node], temp)
+            query = "ssh -o ConnectTimeout=10 pi@{} python3 hive-ml/slave.py {}".format(
+                lineList[curr_node], temp)
             query = str(query)
             system(query)
             curr_chunk = curr_chunk + 1
@@ -62,6 +70,29 @@ def db_connect():
         print(e)
         exit(0)
 
+
 if __name__ == "__main__":
     readNodes()
-    db_connect()
+    if(len(argv) == 1):
+        print("Usage Error")
+        exit(0)
+
+    elif(argv[1] == "masterupdate"):
+        print("Updating from GitHub.")
+        system("git checkout master&&git pull origin master")
+        print("Close program and restart.")
+
+    elif (argv[1] == "run"):
+        time = input("Enter time: ")
+        while True:
+            db_connect()
+            sleep(int(time))
+
+    elif (argv[1] == "slaveupdate"):
+        print("Updating All slave nodes.")
+        for i in lineList:
+            query = "ssh -o ConnectTimeout=10 pi@{} bash updateNodes.sh".format(
+                lineList[curr_node])
+            query = str(query)
+            system(query)
+        
