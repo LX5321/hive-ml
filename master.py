@@ -85,15 +85,14 @@ if __name__ == "__main__":
     elif (argv[1] == "slaveupdate"):
         print("Updating All slave nodes.")
         for i in lineList:
-            query = "ssh -o ConnectTimeout=10 pi@{} bash updateNodes.sh".format(
-                lineList[curr_node])
+            query = "ssh -o ConnectTimeout=10 pi@{} bash updateNodes.sh".format(i)
             query = str(query)
             system(query)
     
     elif (argv[1] == "clustershutdown"):
         print("Shutting Down All slave nodes.")
         for i in lineList:
-            query = "ssh -o ConnectTimeout=10 pi@{} sudo poweroff".format(lineList)
+            query = "ssh -o ConnectTimeout=10 pi@{} sudo poweroff".format(i)
             query = str(query)
             system(query)
             
