@@ -8,21 +8,17 @@ from os import system
 from sys import argv
 from os import chdir
 from time import sleep
-
 init()
-
 
 def divide_chunks(l, n):
     for i in range(0, len(l), n):
         yield l[i:i + n]
-
 
 def readNodes():
     global lineList
     with open(en.fileName) as f:
         lineList = f.readlines()
     lineList = [line.rstrip('\n') for line in open(en.fileName)]
-
 
 def db_connect():
     curr_node = 0
@@ -34,8 +30,7 @@ def db_connect():
         mycursor = mydb.cursor()
         print(Fore.GREEN+"[SUCCESS]"+Style.RESET_ALL)
         pending = []
-        query = "select * from {} where PredictedOutcome {}".format(
-            "diagnosis", "IS NULL")
+        query = "select * from {} where PredictedOutcome {}".format("diagnosis", "IS NULL")
         mycursor.execute(query)
         myresult = mycursor.fetchall()
         for x in myresult:
@@ -53,8 +48,7 @@ def db_connect():
             temp = str(temp)
             temp = temp[1:-1]
             temp = temp.replace(" ", "")
-            query = "ssh -o ConnectTimeout=10 pi@{} python3 hive-ml/slave.py {}".format(
-                lineList[curr_node], temp)
+            query = "ssh -o ConnectTimeout=10 pi@{} python3 hive-ml/slave.py {}".format(lineList[curr_node], temp)
             query = str(query)
             system(query)
             curr_chunk = curr_chunk + 1
